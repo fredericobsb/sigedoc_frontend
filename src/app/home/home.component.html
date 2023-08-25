@@ -1,0 +1,49 @@
+<mat-card>Usuários
+    <mat-card-content>
+        <table cdk-table [dataSource]="dataSource">
+            <!-- Matricula Column -->
+            <ng-container cdkColumnDef="matricula">
+              <th cdk-header-cell *cdkHeaderCellDef> Matrícula </th>
+              <td cdk-cell *cdkCellDef="let element"> {{element.matricula}} </td>
+            </ng-container>
+          
+            <!-- Nome Column -->
+            <ng-container cdkColumnDef="nomeDocumento">
+              <th cdk-header-cell *cdkHeaderCellDef> Nome do Documento</th>
+              <td cdk-cell *cdkCellDef="let element"> {{element.nomeDocumento}} </td>
+            </ng-container>
+          
+            <!-- Documentos Column -->
+            <ng-container cdkColumnDef="dataInclusao">
+              <th cdk-header-cell *cdkHeaderCellDef> Data Inclusão </th>
+              <td cdk-cell *cdkCellDef="let element"> {{element.dataInclusao | date: 'dd/MM/yyyy HH:mm:ss'}} </td>
+            </ng-container>
+
+             <!-- manutencao Column -->
+             <ng-container cdkColumnDef="manutencao">
+                <th cdk-header-cell *cdkHeaderCellDef> Manutenção </th>
+                <td cdk-cell *cdkCellDef="let element">
+                    <button class="botao_redondo"  (click)="adicionarDocumento(element)"><mat-icon color = "primary">library_add</mat-icon></button>
+                </td>
+              </ng-container>
+          
+            <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+            <tr cdk-row *cdkRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          
+    </mat-card-content>
+</mat-card>
+
+
+
+<!--<div class="card mt-4">
+    <h4 class="card-header">You're logged in with Angular 10 & JWT!!</h4>
+    <div class="card-body">
+        <h6>Users from secure api end point</h6>
+        <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+        <ul *ngIf="users">
+            <li *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</li>
+        </ul>
+    </div>
+</div>-->
+

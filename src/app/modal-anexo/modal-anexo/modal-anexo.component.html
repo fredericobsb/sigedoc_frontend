@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Selecione um documento para {{data.nome}}</h2>
+<mat-dialog-content>
+    <button mat-raised-button color="primary"
+    (click)="onClick($event)">
+    <mat-icon>add</mat-icon>
+    {{chooseLabel}}
+    </button>
+    <br/>
+    <input #fileUpload
+        type="file"
+        class="input_fileupload--hidden"
+        (input)="onInput($event)"
+        (change)="onFileSelected($event)"
+        [(ngModel)]="inputFileName"
+        [accept]="accept">
+
+    <div *ngFor="let f of files">
+        <span>{{f.name}}</span>
+        <button mat-icon-button
+        color="primary"
+        [attr.title]="deleteButtonLabel?deleteButtonLabel:null"
+        (click)="removeFile(event,f)">
+            <mat-icon>{{deleteButtonIcon}}</mat-icon>
+        </button>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button class="mat-raised-button" (click)="salvarAnexo()">Salvar</button>
+    <button class="mat-raised-button" (click)="close()">Cancelar</button>
+</mat-dialog-actions>
