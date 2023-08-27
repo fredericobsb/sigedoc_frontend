@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.intercept';
-import { fakeBackendProvider } from './_helpers/fake-backend';
+//import { fakeBackendProvider } from './_helpers/fake-backend';
 import { AuthenticationService } from './_services/authentication.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
@@ -21,13 +21,17 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {CdkTableModule} from '@angular/cdk/table'; 
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { ModalExclusaoComponent } from './modal-anexo/modal-exclusao/modal-exclusao.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    ModalAnexoComponent
+    ModalAnexoComponent,
+    ModalExclusaoComponent
   ],
   imports: [
     BrowserModule,
@@ -43,14 +47,15 @@ import {MatDialogModule} from '@angular/material/dialog';
     CdkTableModule,
     MatIconModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    MatTooltipModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
     // provider used to create fake backend
-    fakeBackendProvider,
+   // fakeBackendProvider,
     AuthenticationService
 ],
   bootstrap: [AppComponent]

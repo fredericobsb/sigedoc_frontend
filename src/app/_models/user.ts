@@ -1,9 +1,14 @@
+import { Anexo } from './anexo';
+import {Role} from './role';
+
 export class User {
-    id: number;
+    id: string;
     username: string;
     password: string;
-    firstName: string;
-    lastName: string;
-    public token?: string;
+    email: string;
+    roles: Role[];
+    matricula: string;
+    listaDocumentos: Anexo[];
+    //public token?: string;
     public accessToken?: string;
 }

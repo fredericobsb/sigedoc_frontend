@@ -1,11 +1,5 @@
-<h2 mat-dialog-title>Selecione um documento para {{data.nome}}</h2>
+<h2 mat-dialog-title>{{data.mensagem}}</h2>
 <mat-dialog-content>
-    <button mat-raised-button color="primary"
-    (click)="onClick($event)">
-    <mat-icon>add</mat-icon>
-    {{chooseLabel}}
-    </button>
-    <br/>
     <input #fileUpload
         type="file"
         class="input_fileupload--hidden"
@@ -22,9 +16,10 @@
         (click)="removeFile(event,f)">
             <mat-icon>{{deleteButtonIcon}}</mat-icon>
         </button>
-    </div>
+    </div><br/>
+    <span style="color: red; font-weight: bold;">{{mensagemValidacaoArquivo}}</span>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button class="mat-raised-button" (click)="salvarAnexo()">Salvar</button>
+    <button class="mat-raised-button" (click)="salvarAnexo()">Salvar</button>&nbsp;&nbsp;
     <button class="mat-raised-button" (click)="close()">Cancelar</button>
 </mat-dialog-actions>

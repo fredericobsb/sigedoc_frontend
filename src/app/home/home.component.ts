@@ -1,23 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {DataSource} from '@angular/cdk/collections';
-import {BehaviorSubject, Observable} from 'rxjs';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ModalAnexoComponent } from '../modal-anexo/modal-anexo/modal-anexo.component';
 import { AnexoService } from '../_services/anexo.service';
-import { Anexo } from '../_models/anexo';
-
-
-
-export interface PeriodicElement {
-  nome: string;
-  matricula: number;
-  documentos: string[];
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {matricula: 1000, nome: 'Fred', documentos:[]},
-  {matricula: 2000, nome: 'Ana Lidia', documentos:[]}
-];
+import { User } from '../_models/user';
+import {OperacaoModal} from '../_models/operacao.modal';
+import { ModalExclusaoComponent } from '../modal-anexo/modal-exclusao/modal-exclusao.component';
+import * as fileSaver from '../../../node_modules/file-saver/src/fileSaver';//"file-saver": "^2.0.2"
+import {CorpoDoAnexo} from '../_models/corpoDoAnexo';
 
 @Component({
   selector: 'app-home',
@@ -25,70 +14,66 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  displayedColumns: string[] = ['matricula', 'nomeDocumento', 'dataInclusao', 'manutencao'];
- // dataSource = new ExampleDataSource();
- dataSource;
+
+  displayedColumns: string[] = ['username','matricula','documentos'];
+  dataSource;
+  conteudoPDF:BlobPart;
 
   constructor(private matDialog: MatDialog,
               private anexoService: AnexoService) { }
 
   ngOnInit(): void {
     this.anexoService.listarTodos()
-      .subscribe((res:Anexo[]) =>{
-        console.log('-------- listar Todos em home.component ==> ', res);
-        this.dataSource = new BehaviorSubject<Anexo[]>(res);
+      .subscribe((res:User[]) =>{
+        this.dataSource = res;
       });
   }
 
   adicionarDocumento(element){
-    console.log(element);
+    let operacaoModal = new OperacaoModal();
+    operacaoModal.data = element;
+    operacaoModal.mensagem = 'Selecione um documento para ' + element.username;
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = element;
-    let dialogRef = this.matDialog.open(ModalAnexoComponent, dialogConfig);
+    dialogConfig.data = operacaoModal;
+    const dialogRef = this.matDialog.open(ModalAnexoComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(value => {
-      console.log(`Dialog sent: ${value}`); 
+     //atualiza a lista apos salvar
+     this.anexoService.listarTodos()
+      .subscribe(res =>{
+        this.dataSource = res;
+      });
     });
   }
 
-}
+  excluirDocumento(element){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = element;
+    const dialogRef = this.matDialog.open(ModalExclusaoComponent, dialogConfig);
 
- class ExampleDataSource extends DataSource<PeriodicElement> {
-  /** Stream of data that is provided to the table. */
-  data = new BehaviorSubject<PeriodicElement[]>(ELEMENT_DATA);
-
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
-  connect(): Observable<PeriodicElement[]> {
-    return this.data;
+    dialogRef.afterClosed().subscribe(value => {
+     //atualiza a lista apos excluir
+     this.anexoService.listarTodos()
+      .subscribe(res =>{
+        this.dataSource = res;
+      });
+    });
   }
 
-  disconnect() {}
+  download(doc){
+    this.anexoService.recuperarAnexo(doc.id)
+      .subscribe((documentoRecuperado: CorpoDoAnexo) =>{
+        let base64String = documentoRecuperado.anexo;
+        let byteAnexo = atob(base64String);
+        let byteArray = new Array(byteAnexo.length);
+        for(let i = 0; i < byteAnexo.length; i++){
+          byteArray[i] = byteAnexo.charCodeAt(i);
+        }
+        let uIntArray = new Uint8Array(byteArray);
+        let blob = new Blob([uIntArray], {type : 'application/pdf'});
+        const url = window.URL.createObjectURL(blob);
+        fileSaver.saveAs(blob, documentoRecuperado.nomeDocumento + '.pdf');
+      });
+  }
 
 }
-
-
-
-
-
-/*
-import { Component } from '@angular/core';
-import { first } from 'rxjs/operators';
-import {User} from '../_models/user';
-import {UserService} from '../_services/user.service';
-
-@Component({ templateUrl: 'home.component.html' })
-export class HomeComponent {
-    loading = false;
-    users: User[];
-
-    constructor(private userService: UserService) { }
-
-    ngOnInit() {
-        this.loading = true;
-        this.userService.getAll().pipe(first()).subscribe(users => {
-            this.loading = false;
-            this.users = users;
-        });
-    }
-}
-*/

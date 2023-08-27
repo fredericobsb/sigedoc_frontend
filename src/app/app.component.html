@@ -1,8 +1,11 @@
+<div style="background-color: aqua;" *ngIf="currentUser">
+  <h1 style="text-align: center;"> SIGEDOC - Sistema de Gestão de Documentos</h1>
+</div>
 <!-- nav -->
-<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser" style="margin-top:-10px;">
   <div class="navbar-nav">
       <a class="nav-item nav-link" routerLink="/" routerLinkActive="active">Home</a>
-      <a class="nav-item nav-link" (click)="logout()">Logout</a>
+      <a class="nav-item nav-link" (click)="logout()" style="cursor: pointer;">Logout</a>
   </div>
 </nav>
 
