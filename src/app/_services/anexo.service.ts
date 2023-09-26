@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Anexo } from '../_models/anexo';
 
-const API_URL = `http://localhost:8080/api/auth`;
+const API_URL = `http://localhost:8080/sigedoc/api/auth`;
 
 @Injectable({ providedIn: 'root' })
 export class AnexoService {
