@@ -1,0 +1,39 @@
+<div class="col-md-6 offset-md-3 mt-5">
+    <div class="card">
+        <div class="card-header"><h2 style="text-align:center;color:navy;">CADASTRO DE USUÁRIOS</h2></div>
+        <div class="card-body">
+            <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="username">Login</label>
+                    <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                        <div *ngIf="f.username.errors.required">Username is required</div>
+                    </div>
+                </div>
+                
+                <!--matricula-->
+                <div class="form-group">
+                    <label for="matricula">Matrícula</label>
+                    <input type="text" formControlName="matricula" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.matricula.errors }" />
+                    <div *ngIf="submitted && f.matricula.errors" class="invalid-feedback">
+                        <div *ngIf="f.matricula.errors.required">Matricula is required</div>
+                    </div>
+                </div>
+                <!--email-->
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">E-mail is required</div>
+                    </div>
+                </div>
+                <button [disabled]="loading" class="btn btn-primary">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Cadastrar
+                </button>
+                <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+            </form>
+        </div>
+    </div>
+</div>
+

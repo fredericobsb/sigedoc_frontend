@@ -23,6 +23,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ModalExclusaoComponent } from './modal-anexo/modal-exclusao/modal-exclusao.component';
+import { CadastrousuarioComponent } from './cadastrousuario/cadastrousuario.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ModalExclusaoComponent } from './modal-anexo/modal-exclusao/modal-exclu
     HomeComponent,
     LoginComponent,
     ModalAnexoComponent,
-    ModalExclusaoComponent
+    ModalExclusaoComponent,
+    CadastrousuarioComponent
   ],
   imports: [
     BrowserModule,

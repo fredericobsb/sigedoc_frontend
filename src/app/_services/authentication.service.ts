@@ -37,4 +37,14 @@ export class AuthenticationService {
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }
+
+    cadastrarUsuario(username: string, matricula:string, email:string){
+        return this.http.post<any>(`${environment.apiUrl}/api/auth/cadUser`, { username, matricula, email})
+        .pipe(map(user => {
+            //ver o retorno pra algo aqui!
+            console.log('-----------retorno do cadastro de usuario ==> ', user);
+            this.currentUserSubject.next(user);
+            return user;
+        }));
+    }
 }
